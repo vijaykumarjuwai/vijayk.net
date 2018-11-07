@@ -1,3 +1,4 @@
+const dotenv = require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
@@ -7,7 +8,7 @@ const path = require("path");
 
 mongoose
     .connect(
-        "mongodb+srv://vijaykumar:GA78mM9C4jO2Nbey@cluster0-mhhcs.mongodb.net/myblog?retryWrites=true",
+        "mongodb+srv://vijaykumar:" + process.env.DB_PASS + "@cluster0-mhhcs.mongodb.net/myblog?retryWrites=true",
         { useNewUrlParser: true }
     )
     .then(() => console.log("succesfully connected to db"))
