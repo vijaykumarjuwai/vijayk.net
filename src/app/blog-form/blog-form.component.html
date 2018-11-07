@@ -1,0 +1,16 @@
+<form [formGroup]="myForm">
+  Value: {{ myForm.value | json }}
+  <hr>
+    <input placeholder="title" formControlName="title">
+    <input placeholder="Author" formControlName="author">
+    <input placeholder="Body" formControlName="body">
+  <div formArrayName="categories">
+    <div *ngFor="let category of blogCategory.controls; let i = index" [formGroupName]="i">
+        <input placeholder="Category" formControlName="category">
+        <input placeholder="Genre" formControlName="genre">
+        <input placeholder="Tags" formControlName="tags">
+      <button class="btn" (click)="deleteCategory(i)">Delete</button>
+    </div>
+  </div>
+  <button (click)="addCategory()">Add Category</button>
+</form>
