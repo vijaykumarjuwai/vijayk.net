@@ -4,8 +4,8 @@ const blogSchema = mongoose.Schema({
     title: { type: String, required: true },
     author: { type: String, required: true },
     body: { type: String, required: true },
-    blogType: [{ category: String, genre: String, tags: [String]}],
-    comments: [{ body: String, date: Date }],
+    category: { type: String, required: true },
+    comments: [{ body: String, date: { type: Date, default: Date.now }, userName: String }],
     date: { type: Date, default: Date.now },
     hidden: Boolean
 });

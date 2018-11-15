@@ -1,2 +1,22 @@
-<h1 class="mat-h1">My Blog</h1>
+<nav>
+    <div class="nav-wrapper">
+        <a href="#" class="brand-logo">Logo</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li>
+                <a routerLink="/blog" routerLinkActive="active">
+                    <button class="nav-button" mat-raised-button color="primary">
+                        Blog
+                    </button>
+                </a>
+            </li>
+            <li>
+                <a routerLink="/create-blogpost" routerLinkActive="active">
+                    <button class="nav-button" mat-raised-button color="primary">
+                        New Post
+                    </button>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
 <router-outlet></router-outlet>

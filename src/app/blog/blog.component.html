@@ -1,3 +1,8 @@
-<p>This blog is a work in progress.</p>
-<p>Mostly done with devops work.</p>
-<p>Awesome!</p>
+<div class="container">
+    <div class="blogPosts" *ngFor="let blog of blogs">
+        <h2 class="mat-h2">Title: {{ blog.title }}</h2>
+        <h3 class="mat-h3">Author: {{ blog.author }}</h3>
+        <div [innerHTML]="blog.body"></div>
+        <button mat-raised-button color="warn" (click)="deleteBlog(blog._id)">Delete Blog</button>
+    </div>
+</div>

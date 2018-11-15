@@ -1,16 +1,22 @@
-<form [formGroup]="myForm">
-  Value: {{ myForm.value | json }}
-  <hr>
-    <input placeholder="title" formControlName="title">
-    <input placeholder="Author" formControlName="author">
-    <input placeholder="Body" formControlName="body">
-  <div formArrayName="categories">
-    <div *ngFor="let category of blogCategory.controls; let i = index" [formGroupName]="i">
-        <input placeholder="Category" formControlName="category">
-        <input placeholder="Genre" formControlName="genre">
-        <input placeholder="Tags" formControlName="tags">
-      <button class="btn" (click)="deleteCategory(i)">Delete</button>
+<div class="container">
+  <form [formGroup]="myForm" (ngSubmit)="submitHandler()">
+    <div class="blog-form">
+      <div class="small-div">
+        <mat-form-field>
+          <input matInput placeholder="title" formControlName="title" type="text">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Author" formControlName="author">
+        </mat-form-field>
+      </div>
+      <editor formControlName="body" [init]="{plugins: 'link'}"></editor>
+      <div class="small-div">
+        <mat-form-field>
+          <input matInput placeholder="Category" formControlName="category">
+        </mat-form-field>
+        <mat-checkbox formControlName="hidden">Hidden</mat-checkbox>
+        <button mat-raised-button color="primary" type="submit" [disabled]="myForm.invalid">Submit</button>
+      </div>
     </div>
-  </div>
-  <button (click)="addCategory()">Add Category</button>
-</form>
+  </form>
+</div>
