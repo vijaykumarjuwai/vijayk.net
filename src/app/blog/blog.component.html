@@ -1,8 +1,29 @@
-<div class="container">
-    <div class="blogPosts" *ngFor="let blog of blogs">
-        <h2 class="mat-h2">Title: {{ blog.title }}</h2>
-        <h3 class="mat-h3">Author: {{ blog.author }}</h3>
-        <div [innerHTML]="blog.body"></div>
-        <button mat-raised-button color="warn" (click)="deleteBlog(blog._id)">Delete Blog</button>
+<div class="container blog-container">
+    <div class="blog-post">
+        <button
+            *ngIf="auth.isLoggedIn()"
+            mat-raised-button
+            color="primary"
+            [routerLink]="['/newblogpost']"
+        >
+            New Post
+        </button>
+        <div *ngIf="blogs?.length > 0">
+            <div class="blog-posts" *ngFor="let blog of blogs">
+                <h2 class="mat-h2 blog-title">{{ blog.title }}</h2>
+                <div [innerHTML]="blog.body"></div>
+                <button
+                    *ngIf="auth.isLoggedIn()"
+                    mat-raised-button
+                    color="warn"
+                    (click)="deleteBlog(blog._id)"
+                >
+                    Delete Blog
+                </button>
+            </div>
+        </div>
+        <div *ngIf="blogs?.length == 0">
+            <h3>Currently there are no blogs published.</h3>
+        </div>
     </div>
 </div>
