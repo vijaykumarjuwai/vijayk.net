@@ -1,10 +1,15 @@
-const dotenv = require("dotenv").config();
-const express = require("express");
-const mongoose = require("mongoose");
-const morgan = require("morgan");
-const blogAPI = require("./routes/blog");
+const express = require('express');
+const mongoose = require('mongoose');
+const nodepath = require('path');
+require('dotenv').config();
+const cors = require('cors');
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
+const login = require('./routes/login');
+const register = require('./routes/register');
+const blogAPI = require('./routes/blog');
 const app = express();
-const path = require("path");
+mongoose.Promise = global.Promise;
 
 mongoose
     .connect(
@@ -16,10 +21,21 @@ mongoose
 
 app.use(express.json());
 app.use(morgan("tiny"));
-app.use("/api/blog", blogAPI);
-app.use(express.static(path.join(__dirname, "dist/myblog/")));
-app.use("*", express.static(path.join(__dirname, "dist/myblog/")));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(nodepath.join(__dirname, "dist/myblog/")));
 
-const port = process.env.PORT || 3000;
+if (process.env.ENV === 'development') {
+    app.use(morgan('tiny'));
+}
 
-app.listen(port, () => console.log("listening on port 3000"));
+app.use('/api/blog', blogAPI);
+app.use('/api/login', login);
+app.use('/api/register', register);
+
+app.use('*', express.static(nodepath.join(__dirname, 'dist/myblog/')));
+
+let port = process.env.PORT || 3000;
+
+app.listen(process.env.PORT, () => {
+    console.log(`Connected to ${port}`);
+});

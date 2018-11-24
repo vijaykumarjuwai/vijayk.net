@@ -1,6 +1,8 @@
 const express = require('express');
 const blog = express.Router();
-const Blog = require('../models/Blog')
+const Blog = require('../models/Blog');
+const auth = require('../middlewares/auth');
+const admin = require('../middlewares/admin');
 
 blog.get('/', (req, res, next) => {
     Blog.find()

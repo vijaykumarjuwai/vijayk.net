@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { BlogService } from '../blog.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-blog-form',
@@ -10,44 +12,35 @@ export class BlogFormComponent implements OnInit {
 
   myForm: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,
+              private blogApi: BlogService,
+              private router: Router ) { }
 
   ngOnInit() {
     this.myForm = this.fb.group({
-      title: '',
-      author: '',
-      body: '',
-      categories: this.fb.array([]),
+      title: ['', Validators.required],
+      author: ['', Validators.required],
+      body: ['', Validators.required],
+      category: ['', Validators.required],
+      hidden: false
     });
-
-    this.myForm.valueChanges.subscribe(console.log);
+    // this.myForm.valueChanges.subscribe(console.log);
   }
 
-  get blogCategory() {
-    return this.myForm.get('categories') as FormArray;
-  }
-
-  addCategory() {
-    const blogType = this.fb.group({
-      category: '',
-      genre: '',
-      tags: []
+  submitHandler() {
+    const formVal = this.myForm.value;
+    const jsonVal = JSON.stringify(formVal);
+    this.blogApi.postBlogPost(jsonVal).subscribe((res) => {
+      this.router.navigate(['/blog']);
     });
-
-    this.blogCategory.push(blogType);
   }
-
-  deleteCategory(i) {
-    this.blogCategory.removeAt(i);
-  }
-
-//   const blogSchema = mongoose.Schema({
-//     title: { type: String, required: true },
-//     author: { type: String, required: true },
-//     body: { type: String, required: true },
-//     blogType: [{ category: String, genre: String, tags: [String]}],
-//     comments: [{ body: String, date: Date }],
-//     date: { type: Date, default: Date.now },
-//     hidden: Boolean
+// const blogSchema = mongoose.Schema({
+//   title: { type: String, required: true },
+//   author: { type: String, required: true },
+//   body: { type: String, required: true },
+//   category: { type: String, required: true },
+//   comments: [{ body: String, date: { type: Date, default: Date.now }, userName: String }],
+//   date: { type: Date, default: Date.now },
+//   hidden: Boolean
 // });
 }
